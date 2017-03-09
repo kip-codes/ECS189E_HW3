@@ -35,45 +35,52 @@ public class IInstructorTest {
 
     @Test
     public void testAddHomework() throws Exception {
-        System.out.println("Base test for assertion...");
+        System.out.println("Base test for assertion in addHomework()...");
         this.instructor.addHomework("Instructor", "Class", 2017, "Homework", "Description");
-        assertTrue(this.instructor.homeworkExists("Class",2017, "Homework"));
+        assertFalse(this.instructor.homeworkExists("Class",2017, "Homework"));
     }
 
     @Test
     public void testAddHomework2() throws Exception {
         System.out.println("Testing for invalid year...");
         this.instructor.addHomework("Instructor", "Class", 2016, "Homework", "Description");
-        assertFalse(this.instructor.homeworkExists("Class",2016, "Homework"));
+        assertTrue(this.instructor.homeworkExists("Class",2016, "Homework"));
     }
 
     @Test
     public void testAddHomework3() throws Exception {
         System.out.println("Testing for blank elements...");
         this.instructor.addHomework("Instructor", "", 2017, "Homework", "Description");
-        assertFalse(this.instructor.homeworkExists("",2017, "Homework"));
+        assertTrue(this.instructor.homeworkExists("",2017, "Homework"));
     }
 
     @Test
     public void testAddHomework4() throws Exception {
         System.out.println("Testing for blank elements...");
         this.instructor.addHomework("Instructor", "Class", 2017, "", "Description");
-        assertFalse(this.instructor.homeworkExists("Class",2017, ""));
+        assertTrue(this.instructor.homeworkExists("Class",2017, ""));
     }
 
     @Test
-    public void assignGrade() throws Exception {
-
+    public void testAddHomework5() throws Exception {
+        System.out.println("Testing for blank elements and prevent creation of object...");
+        this.instructor.addHomework("", "Class", 2017, "Homework", "");
+        assertTrue(this.instructor.homeworkExists("Class",2017, "Homework"));
     }
 
     @Test
-    public void homeworkExists() throws Exception {
-
+    public void testAssignGrade() throws Exception {
+        System.out.println("Base test for assertion in assignGrade()...");
+        this.instructor.addHomework("I","C",2017,"HW","D");
+        this.instructor.assignGrade("I","C",2017,"HW", "Student", 100);
+        assertTrue(this.instructor.getGrade("C", 2017, "HW", "Student") == 100);
     }
 
     @Test
-    public void getGrade() throws Exception {
-
+    public void testAssignGrade2() throws Exception {
+        System.out.println("Testing for invalid grade assignment...");
+        this.instructor.addHomework("I","C",2017,"HW","D");
+        this.instructor.assignGrade("I","C",2017,"HW", "Student", -1);
+        assertFalse(this.instructor.getGrade("C", 2017, "HW", "Student") >= 0);
     }
-
 }
